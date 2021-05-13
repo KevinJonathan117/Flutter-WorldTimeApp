@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 
 class WorldTime {
+
   String location; //location name for the UI
   String time; //the time in that location
   String flag; // url to an asset flag icon
@@ -14,7 +15,7 @@ class WorldTime {
   Future<void> getTime() async {
     try {
       //make the request
-      Uri url = Uri.parse('http://worldtimeapi.org/api/timezone/' + this.url);
+      var url = Uri.parse('http://worldtimeapi.org/api/timezone/' + this.url);
       Response response = await get(url);
       Map data = jsonDecode(response.body);
 
@@ -30,8 +31,12 @@ class WorldTime {
       isDaytime = now.hour > 6 && now.hour < 20 ? true : false;
       time = DateFormat.jm().format(now);
     } catch (e) {
-      print('caught error: $e');
-      time = "could not get time data";
+      print(e);
+      location = "Error in Getting Time";
+      time = "Could Not Get Time";
+      flag = "uk.png";
+      url = "Europe/London";
+      isDaytime = true;
     }
   }
 }
